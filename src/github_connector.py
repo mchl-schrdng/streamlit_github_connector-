@@ -29,8 +29,22 @@ class GitHubConnection(ExperimentalBaseConnection):
     def get_user_profile(self, username):
         return self._make_request(f"/users/{username}")
 
-    def get_user_activity(self, username):
-        return self._make_request(f"/users/{username}/events/public")
+    #def get_user_activity(self, username):
+    #    return self._make_request(f"/users/{username}/events/public")
+
+    def get_user_activity(self, username, max_pages=10):
+        activities = []
+        for page in range(1, max_pages + 1):
+            endpoint = f"/users/{username}/events/public"
+            params = {
+                "per_page": 100,
+                "page": page
+            }
+            results = self._make_request(endpoint, params=params)
+            if not results:
+                break
+            activities.extend(results)
+        return activities
 
     def get_user_repositories(self, username):
         return self._make_request(f"/users/{username}/repos")
