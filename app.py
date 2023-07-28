@@ -31,6 +31,9 @@ if github_username:
         st.write("**Public Gists:**", profile['public_gists'])
         st.write("**Account Created On:**", profile['created_at'])
         st.write("**Last Updated On:**", profile['updated_at'])
+        
+        st.dataframe(profile)
+        st.json(profile)
 
     # Repositories in Column 2
     with col2:
