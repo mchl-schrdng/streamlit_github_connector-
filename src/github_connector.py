@@ -1,58 +1,60 @@
 import streamlit as st
-from src.github_connector import GitHubConnection
+from streamlit.connections import ExperimentalBaseConnection
+import requests
 
-# Create an instance of the GitHubConnection
-conn = GitHubConnection("github")
+class GitHubConnection(ExperimentalBaseConnection):
 
-# Sidebar
-st.sidebar.title("GitHub User Explorer 🚀")
-github_username = st.sidebar.text_input("Enter GitHub Username:")
-if st.sidebar.button('Fetch Data 🕵️'):
-    if github_username:
-        # Fetch data using the GitHubConnection methods
-        profile = conn.get_user_profile(github_username)
-        activity = conn.get_user_activity(github_username)
-        repos = conn.get_user_repositories(github_username)
-        issues = conn.get_user_issues(github_username)
-        pull_requests = conn.get_user_pull_requests(github_username)
-        starred_repos = conn.get_user_starred_repos(github_username)
-        followers = conn.get_user_followers(github_username)
-        following = conn.get_user_following(github_username)
-        gists = conn.get_user_gists(github_username)
-        orgs = conn.get_user_organizations(github_username)
+    BASE_URL = "https://api.github.com"
 
-        # Display data as dataframes
-        st.subheader(f"Profile of {github_username}")
-        st.dataframe(profile)
+    def __init__(self, connection_name):
+        super().__init__(connection_name)
+        self.token = st.secrets["github"]["token"]
 
-        st.subheader("Recent Activity")
-        st.dataframe(activity)
+    def _connect(self):
+        return self
 
-        st.subheader("Repositories")
-        st.dataframe(repos)
+    def _make_request(self, endpoint):
+        url = f"{self.BASE_URL}{endpoint}"
+        headers = {
+            "Authorization": f"token {self.token}",
+            "Accept": "application/vnd.github.v3+json"
+        }
+        response = requests.get(url, headers=headers)
+        if response.status_code == 200:
+            return response.json()
+        else:
+            st.error(f"Error {response.status_code}: {response.text}")
+            return []
 
-        st.subheader("Issues Created")
-        st.dataframe(issues)
+    def get_user_profile(self, username):
+        return self._make_request(f"/users/{username}")
 
-        st.subheader("Pull Requests Created")
-        st.dataframe(pull_requests)
+    def get_user_activity(self, username):
+        return self._make_request(f"/users/{username}/events/public")
 
-        st.subheader("Starred Repositories")
-        st.dataframe(starred_repos)
+    def get_user_repositories(self, username):
+        return self._make_request(f"/users/{username}/repos")
 
-        st.subheader("Followers")
-        st.dataframe(followers)
+    def get_user_issues(self, username):
+        return self._make_request(f"/search/issues?q=author:{username}")
 
-        st.subheader("Following")
-        st.dataframe(following)
+    def get_user_pull_requests(self, username):
+        return self._make_request(f"/search/issues?q=author:{username} type:pr")
 
-        st.subheader("Gists")
-        st.dataframe(gists)
+    def get_user_starred_repos(self, username):
+        return self._make_request(f"/users/{username}/starred")
 
-        st.subheader("Organizations")
-        st.dataframe(orgs)
-    else:
-        st.sidebar.warning("Please enter a GitHub username.")
+    def get_user_followers(self, username):
+        return self._make_request(f"/users/{username}/followers")
 
-else:
-    st.write("Enter a GitHub username in the sidebar and click 'Fetch Data' to explore their activity on GitHub.")
+    def get_user_following(self, username):
+        return self._make_request(f"/users/{username}/following")
+
+    def get_user_gists(self, username):
+        return self._make_request(f"/users/{username}/gists")
+
+    def get_user_organizations(self, username):
+        return self._make_request(f"/users/{username}/orgs")
+
+    def get_repo_languages(self, owner, repo):
+        return self._make_request(f"/repos/{owner}/{repo}/languages")
