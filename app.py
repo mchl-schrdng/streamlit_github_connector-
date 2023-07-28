@@ -35,7 +35,6 @@ if github_username:
 
     # Repositories
     if st.sidebar.button('📂 Fetch Repositories'):
-        repos = conn.get_user_repositories(github_username)
         st.subheader("Repositories")
         st.dataframe(repos)
         st.write("Repositories owned by:", github_username)
