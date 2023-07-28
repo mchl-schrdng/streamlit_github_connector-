@@ -60,7 +60,8 @@ if github_username:
             
             # Fill missing dates with zero activity
             all_dates = pd.date_range(start=df_activity['date'].min(), end=df_activity['date'].max(), freq='D')
-            activity_by_day = activity_by_day.set_index('date').reindex(all_dates, fill_value=0).reset_index()
+            activity_by_day = activity_by_day.set_index('date').reindex(all_dates).fillna(0).reset_index()
+            activity_by_day.columns = ['date', 'count']
             
             # Line Graph for Activity by Day
             st.line_chart(activity_by_day.set_index('date'), use_container_width=True)
