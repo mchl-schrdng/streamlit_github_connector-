@@ -1,7 +1,3 @@
-import streamlit as st
-from streamlit.connections import ExperimentalBaseConnection
-import requests
-
 class GitHubConnection(ExperimentalBaseConnection):
 
     BASE_URL = "https://api.github.com"
@@ -13,13 +9,13 @@ class GitHubConnection(ExperimentalBaseConnection):
     def _connect(self):
         return self
 
-    def _make_request(self, endpoint, params=None):
+    def _make_request(self, endpoint):
         url = f"{self.BASE_URL}{endpoint}"
         headers = {
             "Authorization": f"token {self.token}",
             "Accept": "application/vnd.github.v3+json"
         }
-        response = requests.get(url, headers=headers, params=params)
+        response = requests.get(url, headers=headers)
         if response.status_code == 200:
             return response.json()
         else:
@@ -29,22 +25,8 @@ class GitHubConnection(ExperimentalBaseConnection):
     def get_user_profile(self, username):
         return self._make_request(f"/users/{username}")
 
-    #def get_user_activity(self, username):
-        #return self._make_request(f"/users/{username}/events/public")
-
-    def get_user_activity(self, username, max_pages=5):
-        activities = []
-        for page in range(1, max_pages + 1):
-            endpoint = f"/users/{username}/events/public"
-            params = {
-                "per_page": 100,
-                "page": page
-            }
-            results = self._make_request(endpoint, params=params)
-            if not results:
-                break
-            activities.extend(results)
-        return activities
+    def get_user_activity(self, username):
+        return self._make_request(f"/users/{username}/events/public")
 
     def get_user_repositories(self, username):
         return self._make_request(f"/users/{username}/repos")
@@ -71,4 +53,5 @@ class GitHubConnection(ExperimentalBaseConnection):
         return self._make_request(f"/users/{username}/orgs")
 
     def get_repo_languages(self, owner, repo):
-        return self._make_request(f"/repos/{owner}/{repo}/languages")
+        return self._make_request(f"/repos/{owner}/{repo}/languages")" in this part "    def get_user_activity(self, username):
+        return self._make_request(f"/users/{username}/events/public")
