@@ -19,7 +19,7 @@ if github_username:
         st.image(profile['avatar_url'], width=100)
         
         # Relevant Profile Details
-        st.write("### Profile Details 📌")
+        st.write("###📌 Profile Details")
         st.write("**Username:**", profile['login'])
         st.write("**Name:**", profile['name'] if profile['name'] else "Not provided")
         st.write("**Bio:**", profile['bio'] if profile['bio'] else "Not provided")
