@@ -33,7 +33,7 @@ if github_username:
         st.write("**Last Updated On:**", profile['updated_at'])
         
         st.dataframe(profile)
-        st.json(profile)
+        st.json(profile,expanded=False)
 
     # Repositories in Column 2
     with col2:
