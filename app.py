@@ -14,17 +14,17 @@ if github_username:
     # Profile Information
     profile = conn.get_user_profile(github_username)
     st.image(profile['avatar_url'], width=100)
-    st.json(profile)  # Display raw JSON
     st.dataframe([profile])
     st.write("Profile Information for:", github_username)
+    t.json(profile)  # Display raw JSON
 
     # Repositories
     if st.sidebar.button('📂 Fetch Repositories'):
         repos = conn.get_user_repositories(github_username)
         st.subheader("Repositories")
-        st.json(repos)  # Display raw JSON
         st.dataframe(repos)
         st.write("Repositories owned by:", github_username)
+        st.json(repos)  # Display raw JSON
 
         # Visualization: Bar chart of top repositories based on stars
         repos_sorted = sorted(repos, key=lambda x: x['stargazers_count'], reverse=True)[:10]
@@ -34,9 +34,9 @@ if github_username:
     if st.sidebar.button('📅 Fetch Recent Activity'):
         activity = conn.get_user_activity(github_username)
         st.subheader("Recent Activity")
-        st.json(activity)  # Display raw JSON
         st.dataframe(activity)
         st.write("Recent activity for:", github_username)
+        st.json(activity)  # Display raw JSON
 
         # Visualization: Activity Type Distribution
         activity_types = [event['type'] for event in activity]
@@ -52,17 +52,17 @@ if github_username:
     if st.sidebar.button('🐞 Fetch Issues'):
         issues = conn.get_user_issues(github_username)
         st.subheader("Issues Created")
-        st.json(issues)
         st.dataframe(issues)
         st.write("Issues created by:", github_username)
+        st.json(issues)
 
     # Pull Requests
     if st.sidebar.button('🔄 Fetch Pull Requests'):
         pull_requests = conn.get_user_pull_requests(github_username)
         st.subheader("Pull Requests Created")
-        st.json(pull_requests)
         st.dataframe(pull_requests)
         st.write("Pull requests created by:", github_username)
+        st.json(pull_requests)
 
     # Starred Repositories
     if st.sidebar.button('⭐ Fetch Starred Repos'):
@@ -76,33 +76,33 @@ if github_username:
     if st.sidebar.button('👥 Fetch Followers'):
         followers = conn.get_user_followers(github_username)
         st.subheader("Followers")
-        st.json(followers)
         st.dataframe(followers)
         st.write("Users following:", github_username)
+        st.json(followers)
 
     # Following
     if st.sidebar.button('👣 Fetch Following'):
         following = conn.get_user_following(github_username)
         st.subheader("Following")
-        st.json(following)
         st.dataframe(following)
         st.write(github_username, "is following:")
+        st.json(following)
 
     # Gists
     if st.sidebar.button('📜 Fetch Gists'):
         gists = conn.get_user_gists(github_username)
         st.subheader("Gists")
-        st.json(gists)
         st.dataframe(gists)
         st.write("Gists created by:", github_username)
+        st.json(gists)
 
     # Organizations
     if st.sidebar.button('🏢 Fetch Organizations'):
         orgs = conn.get_user_organizations(github_username)
         st.subheader("Organizations")
-        st.json(orgs)
         st.dataframe(orgs)
         st.write("Organizations associated with:", github_username)
+        st.json(orgs)
 
 else:
     st.sidebar.warning("Please enter a GitHub username.")
