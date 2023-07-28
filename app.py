@@ -4,6 +4,8 @@ from src.github_connector import GitHubConnection
 # Create an instance of the GitHubConnection
 conn = GitHubConnection("github")
 
+st.set_page_config(layout='wide')
+
 # Sidebar
 st.sidebar.title("GitHub User Explorer 🚀")
 github_username = st.sidebar.text_input("Enter GitHub Username:")
