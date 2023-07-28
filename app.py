@@ -1,5 +1,7 @@
 import streamlit as st
 from src.github_connector import GitHubConnection
+from collections import Counter
+import polars as pl
 
 # Create an instance of the GitHubConnection
 conn = GitHubConnection("github")
@@ -31,6 +33,15 @@ if github_username:
         activity = conn.get_user_activity(github_username)
         st.subheader("Recent Activity")
         st.dataframe(activity)
+    
+        # Visualization: Activity Type Distribution
+        activity_df = pl.DataFrame(activity)
+        activity_types = activity_df.groupby("type").agg(pl.col("type").count().alias("count"))
+        st.bar_chart(activity_types.to_pandas())
+    
+        # Visualization: Activity Over Time
+        activity_dates = activity_df.groupby("created_at").agg(pl.col("created_at").count().alias("count"))
+        st.line_chart(activity_dates.to_pandas())
 
     # Issues
     if st.sidebar.button('🐞 Fetch Issues'):
