@@ -51,7 +51,7 @@ if github_username:
             st.json(activity,expanded=False)
         
              # Convert the activity list to a DataFrame
-            df_activity = st.dataFrame(activity)
+            df_activity = st.dataframe(activity)
         
             # Extract date from 'created_at' and count activities by day
             df_activity['created_at'] = pd.to_datetime(df_activity['created_at'])
