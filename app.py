@@ -55,11 +55,11 @@ if github_username:
             df_activity = pd.DataFrame(activity)
             
             # Extract date from 'created_at' and count activities by day
-            df_activity['created_at'] = pd.to_datetime(df_activity['created_at']).dt.date
-            activity_by_day = df_activity.groupby('created_at').size()
+            df_activity['date'] = pd.to_datetime(df_activity['created_at']).dt.date
+            activity_by_day = df_activity.groupby('date').size()
             
             # Fill missing dates with zero activity
-            all_dates = pd.date_range(start=df_activity['created_at'].min(), end=df_activity['created_at'].max(), freq='D')
+            all_dates = pd.date_range(start=df_activity['date'].min(), end=df_activity['date'].max(), freq='D')
             activity_by_day = activity_by_day.reindex(all_dates, fill_value=0)
             
             # Line Graph for Activity by Day
