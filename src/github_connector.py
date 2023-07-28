@@ -1,60 +1,65 @@
 import streamlit as st
-from streamlit.connections import ExperimentalBaseConnection
-import requests
+from src.github_connector import GitHubConnection
 
-class GitHubConnection(ExperimentalBaseConnection):
+# Create an instance of the GitHubConnection
+conn = GitHubConnection("github")
 
-    BASE_URL = "https://api.github.com"
+# Sidebar
+st.sidebar.title("GitHub User Explorer 🚀")
+github_username = st.sidebar.text_input("Enter GitHub Username:")
 
-    def __init__(self, connection_name):
-        super().__init__(connection_name)
-        self.token = st.secrets["github"]["token"]
+if github_username:
 
-    def _connect(self):
-        return self
+    if st.sidebar.button('🧑 Fetch Profile'):
+        profile = conn.get_user_profile(github_username)
+        st.subheader(f"Profile of {github_username}")
+        st.dataframe(profile)
 
-    def _make_request(self, endpoint):
-        url = f"{self.BASE_URL}{endpoint}"
-        headers = {
-            "Authorization": f"token {self.token}",
-            "Accept": "application/vnd.github.v3+json"
-        }
-        response = requests.get(url, headers=headers)
-        if response.status_code == 200:
-            return response.json()
-        else:
-            st.error(f"Error {response.status_code}: {response.text}")
-            return []
+    if st.sidebar.button('📅 Fetch Recent Activity'):
+        activity = conn.get_user_activity(github_username)
+        st.subheader("Recent Activity")
+        st.dataframe(activity)
 
-    def get_user_profile(self, username):
-        return self._make_request(f"/users/{username}")
+    if st.sidebar.button('📂 Fetch Repositories'):
+        repos = conn.get_user_repositories(github_username)
+        st.subheader("Repositories")
+        st.dataframe(repos)
 
-    def get_user_activity(self, username):
-        return self._make_request(f"/users/{username}/events/public")
+    if st.sidebar.button('🐞 Fetch Issues'):
+        issues = conn.get_user_issues(github_username)
+        st.subheader("Issues Created")
+        st.dataframe(issues)
 
-    def get_user_repositories(self, username):
-        return self._make_request(f"/users/{username}/repos")
+    if st.sidebar.button('🔄 Fetch Pull Requests'):
+        pull_requests = conn.get_user_pull_requests(github_username)
+        st.subheader("Pull Requests Created")
+        st.dataframe(pull_requests)
 
-    def get_user_issues(self, username):
-        return self._make_request(f"/search/issues?q=author:{username}")
+    if st.sidebar.button('⭐ Fetch Starred Repos'):
+        starred_repos = conn.get_user_starred_repos(github_username)
+        st.subheader("Starred Repositories")
+        st.dataframe(starred_repos)
 
-    def get_user_pull_requests(self, username):
-        return self._make_request(f"/search/issues?q=author:{username} type:pr")
+    if st.sidebar.button('👥 Fetch Followers'):
+        followers = conn.get_user_followers(github_username)
+        st.subheader("Followers")
+        st.dataframe(followers)
 
-    def get_user_starred_repos(self, username):
-        return self._make_request(f"/users/{username}/starred")
+    if st.sidebar.button('👣 Fetch Following'):
+        following = conn.get_user_following(github_username)
+        st.subheader("Following")
+        st.dataframe(following)
 
-    def get_user_followers(self, username):
-        return self._make_request(f"/users/{username}/followers")
+    if st.sidebar.button('📜 Fetch Gists'):
+        gists = conn.get_user_gists(github_username)
+        st.subheader("Gists")
+        st.dataframe(gists)
 
-    def get_user_following(self, username):
-        return self._make_request(f"/users/{username}/following")
+    if st.sidebar.button('🏢 Fetch Organizations'):
+        orgs = conn.get_user_organizations(github_username)
+        st.subheader("Organizations")
+        st.dataframe(orgs)
 
-    def get_user_gists(self, username):
-        return self._make_request(f"/users/{username}/gists")
-
-    def get_user_organizations(self, username):
-        return self._make_request(f"/users/{username}/orgs")
-
-    def get_repo_languages(self, owner, repo):
-        return self._make_request(f"/repos/{owner}/{repo}/languages")
+else:
+    st.sidebar.warning("Please enter a GitHub username.")
+    st.write("Enter a GitHub username in the sidebar and click on the desired data category to explore their activity on GitHub.")
