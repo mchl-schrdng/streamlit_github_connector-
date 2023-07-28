@@ -41,13 +41,14 @@ if github_username:
             repos = conn.get_user_repositories(github_username)
             st.subheader("Repositories")
             st.dataframe(repos)
-            st.json(repos)
+            st.json(repos,expanded=False)
 
         # Recent Activity
         if st.sidebar.button('📅 Fetch Recent Activity'):
             activity = conn.get_user_activity(github_username)
             st.subheader("Recent Activity")
             st.dataframe(activity)
+            st.json(activity,expanded=False)
 
         # Issues
         if st.sidebar.button('🐞 Fetch Issues'):
