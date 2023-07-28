@@ -1,9 +1,11 @@
-import streamlit as st
+# app.py
 
-# Create the GitHub connection
-conn = st.experimental_connection('github', type='github')
+import streamlit as st
+from src.github_connector import GitHubConnection
+
+# Create an instance of the GitHubConnection
+conn = GitHubConnection()
 
 # Use the connection to fetch user's GitHub activity
-user_activity = conn.get_user_activity(your_github_username)
-
+user_activity = conn.get_user_activity("your_github_username")
 st.write(user_activity)
