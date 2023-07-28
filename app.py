@@ -49,6 +49,21 @@ if github_username:
             st.subheader("Recent Activity")
             st.dataframe(activity)
             st.json(activity,expanded=False)
+        
+             # Convert the activity list to a DataFrame
+            df_activity = pd.dataFrame(activity)
+        
+            # Extract date from 'created_at' and count activities by day
+            df_activity['created_at'] = pd.to_datetime(df_activity['created_at'])
+            df_activity['date'] = df_activity['created_at'].dt.date
+            activity_by_day = df_activity.groupby('date').size()
+        
+            # Line Graph for Activity by Day
+            st.line_chart(activity_by_day, use_container_width=True)
+        
+            # Donut Chart for Repartition by Type of Activity
+            activity_by_type = df_activity['type'].value_counts()
+            st.pyplot(activity_by_type.plot(kind='pie', autopct='%1.1f%%', startangle=90, wedgeprops=dict(width=0.3)))
 
         # Issues
         if st.sidebar.button('🐞 Fetch Issues'):
