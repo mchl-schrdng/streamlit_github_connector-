@@ -43,63 +43,63 @@ if github_username:
     with col2:
         if st.sidebar.button('📂 Fetch Repositories'):
             repos = conn.get_user_repositories(github_username)
-            st.subheader("Repositories")
+            st.subheader("📂 Repositories")
             st.dataframe(repos)
             st.json(repos,expanded=False)
 
         # Recent Activity
         if st.sidebar.button('📅 Fetch Recent Activity'):
             activity = conn.get_user_activity(github_username)
-            st.subheader("Recent Activity")
+            st.subheader("📅 Recent Activity")
             st.dataframe(activity)
             st.json(activity,expanded=False)
         
         # Issues
         if st.sidebar.button('🐞 Fetch Issues'):
             issues = conn.get_user_issues(github_username)
-            st.subheader("Issues Created")
+            st.subheader("🐞 Issues Created")
             st.dataframe(issues)
             st.json(issues,expanded=False)
 
         # Pull Requests
         if st.sidebar.button('🔄 Fetch Pull Requests'):
             pull_requests = conn.get_user_pull_requests(github_username)
-            st.subheader("Pull Requests Created")
+            st.subheader("🔄 Pull Requests Created")
             st.dataframe(pull_requests)
             st.json(pull_requests,expanded=False)
 
         # Starred Repositories
         if st.sidebar.button('⭐ Fetch Starred Repos'):
             starred_repos = conn.get_user_starred_repos(github_username)
-            st.subheader("Starred Repositories")
+            st.subheader("⭐ Starred Repositories")
             st.dataframe(starred_repos)
             st.json(starred_repos,expanded=False)
 
         # Followers
         if st.sidebar.button('👥 Fetch Followers'):
             followers = conn.get_user_followers(github_username)
-            st.subheader("Followers")
+            st.subheader("👥 Followers")
             st.dataframe(followers)
             st.json(followers,expanded=False)
 
         # Following
         if st.sidebar.button('👣 Fetch Following'):
             following = conn.get_user_following(github_username)
-            st.subheader("Following")
+            st.subheader("👣 Following")
             st.dataframe(following)
             st.json(following,expanded=False)
 
         # Gists
         if st.sidebar.button('📜 Fetch Gists'):
             gists = conn.get_user_gists(github_username)
-            st.subheader("Gists")
+            st.subheader("📜 Gists")
             st.dataframe(gists)
             st.json(gists,expanded=False)
 
         # Organizations
         if st.sidebar.button('🏢 Fetch Organizations'):
             orgs = conn.get_user_organizations(github_username)
-            st.subheader("Organizations")
+            st.subheader("🏢 Organizations")
             st.dataframe(orgs)
             st.json(orgs,expanded=False)
 
