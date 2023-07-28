@@ -50,7 +50,7 @@ if github_username:
             st.subheader("Recent Activity")
             st.dataframe(activity)
             st.json(activity,expanded=False)
-        
+            
             # Convert the activity list to a DataFrame
             df_activity = pd.DataFrame(activity)
             
@@ -60,8 +60,8 @@ if github_username:
             activity_by_day = df_activity.groupby('date').size()
             
             # Fill missing dates with zero activity
-            idx = pd.date_range(start=df_activity['date'].min(), end=df_activity['date'].max())
-            activity_by_day = activity_by_day.reindex(idx, fill_value=0)
+            all_dates = pd.date_range(start=df_activity['date'].min(), end=df_activity['date'].max())
+            activity_by_day = activity_by_day.reindex(all_dates, fill_value=0)
             
             # Line Graph for Activity by Day
             st.line_chart(activity_by_day, use_container_width=True)
