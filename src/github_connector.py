@@ -1,3 +1,7 @@
+import streamlit as st
+from streamlit.connections import ExperimentalBaseConnection
+import requests
+
 class GitHubConnection(ExperimentalBaseConnection):
 
     BASE_URL = "https://api.github.com"
@@ -53,5 +57,4 @@ class GitHubConnection(ExperimentalBaseConnection):
         return self._make_request(f"/users/{username}/orgs")
 
     def get_repo_languages(self, owner, repo):
-        return self._make_request(f"/repos/{owner}/{repo}/languages")" in this part "    def get_user_activity(self, username):
-        return self._make_request(f"/users/{username}/events/public")
+        return self._make_request(f"/repos/{owner}/{repo}/languages")
