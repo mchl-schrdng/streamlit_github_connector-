@@ -39,7 +39,6 @@ if github_username:
         st.subheader("Repositories")
         st.dataframe(repos)
         st.write("Repositories owned by:", github_username)
-        st.json(repos)  # Display raw JSON
 
         # Visualization: Bar chart of top repositories based on stars
         repos_sorted = sorted(repos, key=lambda x: x['stargazers_count'], reverse=True)[:10]
