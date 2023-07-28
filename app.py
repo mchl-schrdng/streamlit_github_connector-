@@ -1,6 +1,5 @@
 import streamlit as st
 from src.github_connector import GitHubConnection
-import pandas as pd
 
 # Create an instance of the GitHubConnection
 conn = GitHubConnection("github")
@@ -50,67 +49,55 @@ if github_username:
             st.subheader("Recent Activity")
             st.dataframe(activity)
             st.json(activity,expanded=False)
-            
-            # Convert the activity list to a DataFrame
-            df_activity = pd.DataFrame(activity)
-            
-            # Extract date from 'created_at' and count activities by day
-            df_activity['date'] = pd.to_datetime(df_activity['created_at']).dt.date
-            activity_by_day = df_activity.groupby('date').size().reset_index(name='count')
-            
-            # Fill missing dates with zero activity
-            all_dates = pd.date_range(start=df_activity['date'].min(), end=df_activity['date'].max(), freq='D')
-            activity_by_day = activity_by_day.set_index('date').reindex(all_dates).fillna(0).reset_index()
-            activity_by_day.columns = ['date', 'count']
-
-            # Display the DataFrame used for the graph
-            st.write("Data used for the graph:")
-            st.dataframe(activity_by_day)
-            
-            # Line Graph for Activity by Day
-            st.line_chart(activity_by_day.set_index('date'), use_container_width=True)
         
         # Issues
         if st.sidebar.button('🐞 Fetch Issues'):
             issues = conn.get_user_issues(github_username)
             st.subheader("Issues Created")
             st.dataframe(issues)
+            st.json(issues,expanded=False)
 
         # Pull Requests
         if st.sidebar.button('🔄 Fetch Pull Requests'):
             pull_requests = conn.get_user_pull_requests(github_username)
             st.subheader("Pull Requests Created")
             st.dataframe(pull_requests)
+            st.json(pull_requests,expanded=False)
 
         # Starred Repositories
         if st.sidebar.button('⭐ Fetch Starred Repos'):
             starred_repos = conn.get_user_starred_repos(github_username)
             st.subheader("Starred Repositories")
             st.dataframe(starred_repos)
+            st.json(starred_repos,expanded=False)
 
         # Followers
         if st.sidebar.button('👥 Fetch Followers'):
             followers = conn.get_user_followers(github_username)
             st.subheader("Followers")
             st.dataframe(followers)
+            st.json(followers,expanded=False)
 
         # Following
         if st.sidebar.button('👣 Fetch Following'):
             following = conn.get_user_following(github_username)
             st.subheader("Following")
             st.dataframe(following)
+            st.json(following,expanded=False)
 
         # Gists
         if st.sidebar.button('📜 Fetch Gists'):
             gists = conn.get_user_gists(github_username)
             st.subheader("Gists")
             st.dataframe(gists)
+            st.json(gists,expanded=False)
 
         # Organizations
         if st.sidebar.button('🏢 Fetch Organizations'):
             orgs = conn.get_user_organizations(github_username)
             st.subheader("Organizations")
             st.dataframe(orgs)
+            st.json(orgs,expanded=False)
 
 else:
     st.sidebar.warning("Please enter a GitHub username.")
