@@ -62,6 +62,10 @@ if github_username:
             all_dates = pd.date_range(start=df_activity['date'].min(), end=df_activity['date'].max(), freq='D')
             activity_by_day = activity_by_day.set_index('date').reindex(all_dates).fillna(0).reset_index()
             activity_by_day.columns = ['date', 'count']
+
+            # Display the DataFrame used for the graph
+            st.write("Data used for the graph:")
+            st.dataframe(activity_by_day)
             
             # Line Graph for Activity by Day
             st.line_chart(activity_by_day.set_index('date'), use_container_width=True)
