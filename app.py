@@ -61,10 +61,6 @@ if github_username:
         
             # Line Graph for Activity by Day
             st.line_chart(activity_by_day, use_container_width=True)
-        
-            # Donut Chart for Repartition by Type of Activity
-            activity_by_type = df_activity['type'].value_counts()
-            st.pyplot(activity_by_type.plot(kind='pie', autopct='%1.1f%%', startangle=90, wedgeprops=dict(width=0.3)))
 
         # Issues
         if st.sidebar.button('🐞 Fetch Issues'):
