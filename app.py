@@ -35,6 +35,7 @@ if github_username:
         st.dataframe(profile)
         st.json(profile,expanded=False)
 
+    
     # Repositories in Column 2
     with col2:
         if st.sidebar.button('📂 Fetch Repositories'):
