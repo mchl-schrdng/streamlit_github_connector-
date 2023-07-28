@@ -16,7 +16,7 @@ if github_username:
     st.image(profile['avatar_url'], width=100)
     st.dataframe([profile])
     st.write("Profile Information for:", github_username)
-    t.json(profile)  # Display raw JSON
+    st.json(profile)  # Display raw JSON
 
     # Repositories
     if st.sidebar.button('📂 Fetch Repositories'):
