@@ -14,6 +14,21 @@ if github_username:
     # Profile Information
     profile = conn.get_user_profile(github_username)
     st.image(profile['avatar_url'], width=100)
+    
+    # Relevant Profile Details
+    st.write("### Profile Details 📌")
+    st.write("**Username:**", profile['login'])
+    st.write("**Name:**", profile['name'] if profile['name'] else "Not provided")
+    st.write("**Bio:**", profile['bio'] if profile['bio'] else "Not provided")
+    st.write("**Location:**", profile['location'] if profile['location'] else "Not provided")
+    st.write("**Profile URL:**", f"[{profile['html_url']}]({profile['html_url']})")
+    st.write("**Followers:**", profile['followers'])
+    st.write("**Following:**", profile['following'])
+    st.write("**Public Repositories:**", profile['public_repos'])
+    st.write("**Public Gists:**", profile['public_gists'])
+    st.write("**Account Created On:**", profile['created_at'])
+    st.write("**Last Updated On:**", profile['updated_at'])
+    
     st.dataframe([profile])
     st.write("Profile Information for:", github_username)
     st.json(profile)  # Display raw JSON
