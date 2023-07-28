@@ -37,11 +37,3 @@ The application uses a custom connector built on top of Streamlit's `Experimenta
 2. Enter a GitHub username in the sidebar.
   
 3. Click on the desired data category buttons to explore the user's activity on GitHub.
-
-## Contributions 🤝
-
-Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](#) for open issues or create a new one.
-
-## License 📄
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
