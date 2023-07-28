@@ -54,7 +54,7 @@ if github_username:
             df_activity = st.dataframe(activity)
         
             # Extract date from 'created_at' and count activities by day
-            df_activity['created_at'] = pd.to_datetime(df_activity['created_at'])
+            df_activity['created_at'] = st.to_datetime(df_activity['created_at'])
             df_activity['date'] = df_activity['created_at'].dt.date
             activity_by_day = df_activity.groupby('date').size()
         
