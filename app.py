@@ -1,5 +1,6 @@
 import streamlit as st
 from src.github_connector import GitHubConnection
+import pandas as pd
 
 # Create an instance of the GitHubConnection
 conn = GitHubConnection("github")
@@ -50,11 +51,11 @@ if github_username:
             st.dataframe(activity)
             st.json(activity,expanded=False)
         
-             # Convert the activity list to a DataFrame
-            df_activity = st.dataframe(activity)
+            # Convert the activity list to a DataFrame
+            df_activity = pd.DataFrame(activity)
         
             # Extract date from 'created_at' and count activities by day
-            df_activity['created_at'] = st.to_datetime(df_activity['created_at'])
+            df_activity['created_at'] = pd.to_datetime(df_activity['created_at'])
             df_activity['date'] = df_activity['created_at'].dt.date
             activity_by_day = df_activity.groupby('date').size()
         
