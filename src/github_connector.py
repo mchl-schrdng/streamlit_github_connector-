@@ -5,6 +5,9 @@ import streamlit as st
 
 class GitHubConnection(ExperimentalBaseConnection):
 
+    def __init__(self, connection_name):
+        super().__init__(connection_name)
+
     def _connect(self, **kwargs):
         self.token = st.secrets['github']['token']
         return self
