@@ -1,5 +1,3 @@
-# app.py
-
 import streamlit as st
 from src.github_connector import GitHubConnection
 
@@ -13,7 +11,7 @@ st.sidebar.title("GitHub Activity Extractor 😃")
 github_username = st.sidebar.text_input("Enter GitHub Username:")
 
 # Add a button to the sidebar
-if st.sidebar.button('Extract GitHub Activity'):
+if st.sidebar.button('Extract GitHub Activity') and github_username:
     # Use the connection to fetch user's GitHub activity for the provided username
     user_activity = conn.get_user_activity(github_username)
     
