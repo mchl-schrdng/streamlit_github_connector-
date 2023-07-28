@@ -32,7 +32,7 @@ class GitHubConnection(ExperimentalBaseConnection):
     #def get_user_activity(self, username):
         #return self._make_request(f"/users/{username}/events/public")
 
-    def get_user_activity(self, username, max_pages=10):
+    def get_user_activity(self, username, max_pages=5):
         activities = []
         for page in range(1, max_pages + 1):
             endpoint = f"/users/{username}/events/public"
